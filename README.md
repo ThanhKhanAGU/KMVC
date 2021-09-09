@@ -1,4 +1,4 @@
-# **KMVC FRAMEWORK** 
+# `KMVC FRAMEWORK` 
 ![image info](core/logo.png)
 ### KMVC framework 2021
 
@@ -11,17 +11,17 @@
 
 |Tên Lệnh              |Thông tin     | Mô tả                                                   |
 |----------------------|--------------|---------------------------------------------------------|
-| **-all**             |`<Tên Obj>`   |- *Tạo một đối tượng cho toàn bộ Project*.               |
-| **-mvc**             |`<Tên MVC>`   |- *Tạo ra một cấu trúc MVC.*                             |
-| **-model**           |`<Tên Model>` |- *Tạo ra một class Model.*                              |
-| **-view**            |`<Tên View>`  |- *Tạo ra một view ở pages.*                             |
-| **-view-admin**      |`<Tên View>`  |- *Tạo ra một cấu trúc view ở Admin và Pages.*           |
-| **-controller**      |`<Tên Ctrl>`  |- *Tạo ra một class Controller.*                         |
-| **-controller-route**|`<Tên Ctrl>`  |- *Tạo ra một class Controller và Các Route tương ứng.*  |
-| **-table**           |`<Tên bảng>`  |- *Tạo một bảng trong kịch bản của CSDL.*                |
-| **-add-data**        |`<Tên data>`  |- *Thêm dữ liệu vào trong CSDL.*                         |
-| **-reset-db**        |              |- *Xóa toàn bộ CSDL.*                                    |
-| **-execute-db**      |              |- *Thực thi kịch bản để tạo ra CSDL.*                    |
+| `-all`             |**<Tên Obj>**   |- *Tạo một đối tượng cho toàn bộ Project*.               |
+| `-mvc`             |**<Tên MVC>**   |- *Tạo ra một cấu trúc MVC.*                             |
+| `-model`           |**<Tên Model>** |- *Tạo ra một class Model.*                              |
+| `-view`            |**<Tên View>**  |- *Tạo ra một view ở pages.*                             |
+| `-view-admin`      |**<Tên View>**  |- *Tạo ra một cấu trúc view ở Admin và Pages.*           |
+| `-controller`      |**<Tên Ctrl>**  |- *Tạo ra một class Controller.*                         |
+| `-controller-route`|**<Tên Ctrl>**  |- *Tạo ra một class Controller và Các Route tương ứng.*  |
+| `-table`           |**<Tên bảng>**  |- *Tạo một bảng trong kịch bản của CSDL.*                |
+| `-add-data`        |**<Tên data>**  |- *Thêm dữ liệu vào trong CSDL.*                         |
+| `-reset-db`        |              |- *Xóa toàn bộ CSDL.*                                    |
+| `-execute-db`      |              |- *Thực thi kịch bản để tạo ra CSDL.*                    |
 >## Mô HÌNH MVC
 
 ![image info](core/mvc_map.svg)
