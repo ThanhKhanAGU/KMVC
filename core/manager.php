@@ -31,7 +31,11 @@ function _help()
 
 function write($path,$name,$result)
 {
-    $path = "$path/$name";
+    if(!is_dir($path))
+    {
+       mkdir("$path");
+    };
+    $path = "$path$name";
     $myfile = fopen($path, "w");
     fwrite($myfile, $result);
     fclose($myfile);
@@ -214,7 +218,7 @@ die();
 
 if($argc === 2)
 {
-    if($argv[1] === '-reset-db')
+    if(strtolower($argv[1]) === '-reset-db')
     {
         require_once('core/database.php');
         echo "Xóa Toàn Bộ cơ sở dữ liệu? ( DL Không thể phục hòi! ) (Y/N): ";
@@ -225,7 +229,7 @@ if($argc === 2)
         die();
        
     }
-    if($argv[1] === '-execute-db')
+    if(strtolower($argv[1]) === '-execute-db')
     {
         require_once('core/database.php');
         echo "Tạo Mới CSDL? ( không ghi đè bản đã có ) (Y/N): ";
@@ -239,7 +243,7 @@ if($argc === 2)
 
 }elseif($argc === 3)
 {
-    if($argv[1] === '-all')
+    if(strtolower($argv[1]) === '-all')
     {
         foreach(glob("database/*.php") as $item)
         {
@@ -281,7 +285,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-mvc')
+    if(strtolower($argv[1]) === '-mvc')
     {
         if(file_exists("app\model\\$argv[2].php"))
         {
@@ -312,7 +316,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-model')
+    if(strtolower($argv[1]) === '-model')
     {
         if(file_exists("app\model\\$argv[2].php"))
         {
@@ -324,7 +328,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-view')
+    if(strtolower($argv[1]) === '-view')
     {
         if(file_exists("app/view/pages/$argv[2].html"))
         {
@@ -335,7 +339,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-view-admin')
+    if(strtolower($argv[1]) === '-view-admin')
     {
         if(is_dir("app/view/admin/$argv[2]/")&&is_dir("app/view/pages/$argv[2]/"))
         {
@@ -348,7 +352,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-controller')
+    if(strtolower($argv[1]) === '-controller')
     {
         if(file_exists("app\controller\\$argv[2].php"))
         {
@@ -360,7 +364,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-controller-route')
+    if(strtolower($argv[1]) === '-controller-route')
     {
         if(file_exists("app\controller\\$argv[2].php"))
         {
@@ -372,7 +376,7 @@ if($argc === 2)
         }
         die();
     }
-    if($argv[1] === '-table')
+    if(strtolower($argv[1]) === '-table')
     {
         foreach(glob("database/*") as $item)
         {
@@ -385,7 +389,7 @@ if($argc === 2)
         create_database($argv[2]);
         die();
     }
-    if($argv[1] === '-add-data')
+    if(strtolower($argv[1]) === '-add-data')
     {
        if(file_exists("database/data/$argv[2].php"))
        {

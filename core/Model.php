@@ -2,13 +2,15 @@
 namespace K_MVC;
 
 
-class Model{
+class Model
+{
     public function save()
     {
         date_default_timezone_set('asia/ho_chi_minh');
         if(isset($this->id))
         {
-            $_sql = 'UPDATE `'.get_class($this).'` SET ';
+            $__this = explode('\\',get_class($this));
+            $_sql = 'UPDATE `'.$__this[1].'` SET ';
             foreach( $this as $key => $value )
             {
                 if($key!='id'&& $key!='table')
@@ -29,7 +31,8 @@ class Model{
             return connect::database($_sql);
         }else
         {
-            $_name = "INSERT INTO `".get_class($this).'` (';
+            $__this = explode('\\',get_class($this));
+            $_name = "INSERT INTO `".$__this[1].'` (';
             $_data = ') VALUES (';
             foreach( $this as $key => $value )
             {
@@ -55,7 +58,8 @@ class Model{
     {
         if(isset($this->id))
         {
-            $sql = "DELETE FROM `".get_class($this)."` WHERE `id` = $this->id";
+            $__this = explode('\\',get_class($this));
+            $sql = "DELETE FROM `".$__this[1]."` WHERE `id` = $this->id";
             return connect::database($_sql);
         }
         return false;
@@ -63,15 +67,15 @@ class Model{
     }
     public static function all()
     {
-        return (new dataTable(get_called_class()))->all();
+        return (new dataTable(explode('\\',get_called_class())))->all();
     }
     public static function where($data, $value1 = null, $value2 = null)
     {
-        return (new dataTable(get_called_class()))->where($data,$value1,$value2);
+        return (new dataTable(explode('\\',get_called_class())))->where($data,$value1,$value2);
     }
     public static function find($id)
     {
-        return (new dataTable(get_called_class()))->where('id',$id)->first();
+        return (new dataTable(explode('\\',get_called_class())))->where('id',$id)->first();
     }
 }
 class dataTable{
@@ -79,8 +83,7 @@ class dataTable{
     private $table = '';
     public function __construct($table,$sql = NULL)
     {
-        $tb = explode("\\",$table);
-        $this->sql = "SELECT * FROM $tb[1]";
+        $this->sql = "SELECT * FROM $table";
         $this->table = $table;
         if($sql!=null) $this->sql = $sql;
     }
