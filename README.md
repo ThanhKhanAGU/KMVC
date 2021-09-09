@@ -7,7 +7,7 @@
 > - Đại học: Đại học An Giang.
 > - Lớp    : DH19TH2
 # *Bảng Lệnh trong KMVC Framework*
-> Cấu trúc lệnh comment line: `php kmvc` <Tên Lệnh> <Thông Tin>
+> Cấu trúc lệnh comment line: `php kmvc` `<Tên Lệnh>` `<Thông Tin>`
 
 |Tên Lệnh              |Thông tin     | Mô tả                                                   |
 |----------------------|--------------|---------------------------------------------------------|
