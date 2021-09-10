@@ -81,6 +81,21 @@ function view($file,$obj = [])
         $data = str_replace("{{","<?php print_r(",$data);
         $data = str_replace("}}",");?>",$data);
 
+
+        $a  = section($data,'foreach') ;
+        $data1 = $data."";
+        foreach ($a as $key => $value) {
+           $value = "<?php foreach($key){ ?>";
+           $data1 = str_replace("@foreach($key)",$value,$data1);
+           
+        }
+        $data = str_replace("@endforeach","<?php } ?>",$data1);
+
+
+
+
+
+
         $a  = section($data,'for') ;
         $data1 = $data."";
 
@@ -91,16 +106,7 @@ function view($file,$obj = [])
         }
         $data = str_replace("@endfor","<?php } ?>",$data1);
         
-        $a  = section($data,'foreach') ;
-        $data1 = $data."";
-
-        foreach ($a as $key => $value) {
-           $value = "<?php foreach($key){ ?>";
-           $data1 = str_replace("@foreach($key)",$value,$data1);
-           
-        }
-        $data = str_replace("@endforeach","<?php } ?>",$data1);
-
+        
         $a  = section($data,'if') ;
         $data1 = $data."";
 
