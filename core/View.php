@@ -112,10 +112,8 @@ function view($file,$obj = [])
 
         foreach ($a as $key => $value) {
            $value = "<?php if($key){ ?>";
-           $data1 = str_replace("@if($key)",$value,$data1);
-           
+           $data1 = str_replace("@if($key)",$value,$data1);   
         }
-        $data = str_replace("@endif","<?php } ?>",$data1);
         $data = str_replace("@else","<?php }else{ ?>",$data1);
 
         $a  = section($data,'elseif') ;
@@ -126,9 +124,8 @@ function view($file,$obj = [])
            $data1 = str_replace("@elseif($key)",$value,$data1);
            
         }
-        $data = str_replace("@endif","<?php } ?>",$data1);
 
-        
+        $data = str_replace("@endif","<?php } ?>",$data1);
         $a  = section($data,'while') ;
         $data1 = $data."";
 
@@ -141,7 +138,6 @@ function view($file,$obj = [])
         
         $data = str_replace("@break","<?php break; ?>",$data);   
         $data = str_replace("@continute","<?php continute; ?>",$data);   
-
         if($obj != [])
         {
             $var = '';
