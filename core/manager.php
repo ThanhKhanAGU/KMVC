@@ -33,8 +33,6 @@ function user()
 {
     $user = '<?php
     namespace K_MVC;
-    
-    
     class user extends Model
     {
         private static $u = NULL;
@@ -92,6 +90,7 @@ function user()
         }
     }';
     write('core\\auth','user.php',$user);
+
 $user_tb = '<?php
 #----------------------------------------------------------------------------
 #----------------------         CÁC KIỂU DỮ LIỆU       ----------------------
@@ -113,6 +112,7 @@ $table->string("password",128);
 $table->string("remember_login");
 #---  Thông Tin người dùng ---';
 write('database','_user.php',$user_tb);
+
 }
 function write($path,$name,$result)
 {
@@ -324,6 +324,11 @@ if($argc === 2)
         }
         die();
     }
+    if(strtolower($argv[1]) === '-user')
+    {
+        user();
+        die();
+    }
     _help();
 
 }elseif($argc === 3)
@@ -475,19 +480,6 @@ if($argc === 2)
         die();
     }
     if(strtolower($argv[1]) === '-add-data')
-    {
-       if(file_exists("database/data/$argv[2].php"))
-       {
-           require_once("database/data/$argv[2].php");
-           echo "\e[32mĐã Thêm CSDL Thành Công.\e[39m";
-           die();
-       }else
-       {
-            echo "\e[31mKhông tìm thấy dữ liệu.\e[39m";
-       }
-       die();
-    }
-    if(strtolower($argv[1]) === '-user')
     {
        if(file_exists("database/data/$argv[2].php"))
        {
