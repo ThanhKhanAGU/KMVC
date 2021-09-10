@@ -17,10 +17,12 @@ class dataTable{
        $i=1;
        while($row = $data->fetch_assoc())
        {
+           $tenclass = "K_MVC\\$this->table";
+            $r = new $tenclass() ;
            foreach ($row as $key => $value) {
-               $r[$key] = $value;
+               $r->$key = $value;
            }
-           $datatable->$i = (object) $r;
+           $datatable->$i = $r;
            $i++;
        }
        return $datatable; 
@@ -187,7 +189,7 @@ class Model
 
             $_sql.= "`time_edit` = '".date("Y/m/d H:i:s")."' WHERE `id` = $this->id";
             
-            return connect::database($_sql);
+            return \connect::database($_sql);
         }else
         {
             $__this = explode('\\',get_class($this));
@@ -218,8 +220,8 @@ class Model
         if(isset($this->id))
         {
             $__this = explode('\\',get_class($this));
-            $sql = "DELETE FROM `".$__this[1]."` WHERE `id` = $this->id";
-            return connect::database($_sql);
+            $_sql = "DELETE FROM `".$__this[1]."` WHERE `id` = $this->id";
+            return \connect::database($_sql);
         }
         return false;
         

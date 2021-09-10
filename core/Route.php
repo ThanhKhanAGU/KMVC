@@ -72,14 +72,16 @@ if(isset($_SERVER['PATH_INFO']))
 
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
+    
     foreach(Route::$get??[] as $path)
     {
         if(($data = checklink($path_info,$path))!==false)
         {
             if(gettype($data[0]) === 'string')
             {     
-                if(strpos('@',$data[0])===false)
+                if(strpos($data[0],'@')===false)
                 {
+                    var_dump($data[0]);
                     $_url = $_SERVER['HTTP_ORIGIN'];
                     header("Location: $_url/$data[0]");
                     exit;
@@ -99,7 +101,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
                     {
                         $a = new $func[0]();
                         $_GET['file'] = $_FILES;
-                        array_unshift($data[1],(object)$_GET);
+                        $data[1][] = (object)$_GET;
                         call_user_func_array(array($a,$func[1]), $data[1]);
                     }
                 }
@@ -107,7 +109,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
             else
             {
                 $_GET['file'] = $_FILES;
-                array_unshift($data[1],(object)$_GET);
+                $data[1][] = (object)$_GET;
                 call_user_func_array($data[0],$data[1]);
             }
             die();
@@ -122,7 +124,7 @@ else
         {
             if(gettype($data[0]) === 'string')
             {
-                if(strpos('@',$data[0])===false)
+                if(strpos($data[0],'@')===false)
                 {
                     $_url = $_SERVER['HTTP_ORIGIN'];
                     header("Location: $_url/$data[0]");

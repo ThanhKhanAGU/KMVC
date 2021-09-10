@@ -90,12 +90,6 @@ function view($file,$obj = [])
            
         }
         $data = str_replace("@endforeach","<?php } ?>",$data1);
-
-
-
-
-
-
         $a  = section($data,'for') ;
         $data1 = $data."";
 
