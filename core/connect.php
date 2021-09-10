@@ -31,4 +31,14 @@ class connect{
         mysqli_set_charset($con, 'UTF8');
         return $con->query($sql);
     }
+    public static function randum()
+    {
+        $string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        $ranstring = '';
+        $sl = strlen($string)-1;
+        for ($i=0; $i < 20; $i++) { 
+            $ranstring.= $string[rand(0,$sl)];
+        }
+        return $ranstring;
+    }
 }

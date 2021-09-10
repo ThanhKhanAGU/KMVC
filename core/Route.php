@@ -3,13 +3,21 @@ class Route{
     static public $get;
     static public $post;
 
-    static public function get($_url,$func)
-    {
-        self::$get[] = [$_url,$func];
+    static public function get($_url,$func,$check = '')
+    { 
+        if($check==''||K_MVC\user::check())
+            self::$get[] = [$_url,$func];
+        else{
+            self::$get[] = [$_url, $check];
+        }
     }
-    static public function post($_url,$func)
-    {
-        self::$get[] = [$_url,$func];
+    static public function post($_url,$func,$check = '')
+    { 
+        if($check==''||K_MVC\user::check())
+            self::$post[] = [$_url,$func];
+        else{
+            self::$post[] = [$_url, $check];
+        }
     }
 }
 
@@ -70,26 +78,36 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             if(gettype($data[0]) === 'string')
             {     
-                     
-                $func = explode('@',$data[0]);
-                if(count($func)!=2) die("Khởi tạo route ko Đúng");
-                
-                $func[0]="K_MVC\\$func[0]Controller";
-                if(!isset($data[1]))
+                if(strpos('@',$data[0])===false)
                 {
-                    $a = new $func[0]();
-                    $a->{$func[1]}();
+                    $_url = $_SERVER['HTTP_ORIGIN'];
+                    header("Location: $_url/$data[0]");
+                    exit;
+                }
+                else 
+                {  
+                    $func = explode('@',$data[0]);
+                    if(count($func)!=2) die("Khởi tạo route ko Đúng");
+                    
+                    $func[0]="K_MVC\\$func[0]Controller";
+                    if(!isset($data[1]))
+                    {
+                        $a = new $func[0]();
+                        $a->{$func[1]}();
 
-                }else
-                {
-                    $a = new $func[0]();
-                    //var_dump($func[0]);
-                    call_user_func_array(array($a,$func[1]), $data[1]);
+                    }else
+                    {
+                        $a = new $func[0]();
+                        $_GET['file'] = $_FILES;
+                        array_unshift($data[1],(object)$_GET);
+                        call_user_func_array(array($a,$func[1]), $data[1]);
+                    }
                 }
             }
             else
             {
-                
+                $_GET['file'] = $_FILES;
+                array_unshift($data[1],(object)$_GET);
                 call_user_func_array($data[0],$data[1]);
             }
             die();
@@ -102,28 +120,38 @@ else
     {
         if(($data = checklink($path_info,$path))!==false)
         {
-            $value =$data[0];
             if(gettype($data[0]) === 'string')
             {
-                $value = $data[1];
-                $func = explode('@',$data[0]);
-                if(count($func)!=2) die("Khởi tạo route ko Đúng");
-                
-                $func[0]="K_MVC\\$func[0]Controller";
-                if(!isset($value))
+                if(strpos('@',$data[0])===false)
                 {
-                    $a = new $func[0]();
-                    $a->{$func[1]}();
-
-                }else
-                {
-                    $a = new $func[0]();
-                    call_user_func_array(array($a,$func[1]), $value);
+                    $_url = $_SERVER['HTTP_ORIGIN'];
+                    header("Location: $_url/$data[0]");
+                    exit;
                 }
-                
+                else 
+                {  
+                    $func = explode('@',$data[0]);
+                    if(count($func)!=2) die("Khởi tạo route ko Đúng");
+                    
+                    $func[0]="K_MVC\\$func[0]Controller";
+                    if(!isset($data[1]))
+                    {
+                        $a = new $func[0]();
+                        $a->{$func[1]}();
+
+                    }else
+                    {
+                        $a = new $func[0]();
+                        $_POST['file'] = $_FILES;
+                        array_unshift($data[1],(object)$_POST);
+                        call_user_func_array(array($a,$func[1]), $data[1]);
+                    }
+                }
             }
             else
             {
+                $_POST['file'] = $_FILES;
+                array_unshift($data[1],(object)$_POST);
                 call_user_func_array($data[0],$data[1]);
             }
             die();

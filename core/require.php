@@ -9,6 +9,11 @@ foreach(glob('app/model/*') as $path)
 {
     require_once($path);
 }
+if(file_exists("core/auth/user.php"))
+require_once("core/auth/user.php");
+
+if(file_exists('core/auth/user.php')) 
+
 foreach(glob('app/controller/*') as $path)
 {
     require_once($path);

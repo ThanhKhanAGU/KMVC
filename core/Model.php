@@ -1,83 +1,6 @@
 <?php
 namespace K_MVC;
 
-
-class Model
-{
-    public function save()
-    {
-        date_default_timezone_set('asia/ho_chi_minh');
-        if(isset($this->id))
-        {
-            $__this = explode('\\',get_class($this));
-            $_sql = 'UPDATE `'.$__this[1].'` SET ';
-            foreach( $this as $key => $value )
-            {
-                if($key!='id'&& $key!='table')
-                {
-                    
-                    if(gettype($value)=="string")
-                    {
-                        $_sql.= "`$key`= N'$value', ";
-                    }else
-                    {
-                        $_sql.= "`$key`='$value', ";
-                    }
-                }
-            }
-
-            $_sql.= "`time_edit` = '".date("Y/m/d H:i:s")."' WHERE `id` = $this->id";
-            
-            return connect::database($_sql);
-        }else
-        {
-            $__this = explode('\\',get_class($this));
-            $_name = "INSERT INTO `".$__this[1].'` (';
-            $_data = ') VALUES (';
-            foreach( $this as $key => $value )
-            {
-               if($key != 'table')
-               {
-                    $_name.="`".$key.'`, ';
-                    if(gettype($value)=="string")
-                    {
-                        $_data.="N'".$value."', ";
-                    }else
-                    {
-                        $_data.="'".$value."', ";
-                    }
-               }
-                
-            }
-            $_name.='`time_create`, `time_edit`'.
-            $_data.="'".date("Y/m/d H:i:s")."','".date("Y/m/d H:i:s")."')";
-            return \connect::database($_name);
-        }
-    }
-    public function delete()
-    {
-        if(isset($this->id))
-        {
-            $__this = explode('\\',get_class($this));
-            $sql = "DELETE FROM `".$__this[1]."` WHERE `id` = $this->id";
-            return connect::database($_sql);
-        }
-        return false;
-        
-    }
-    public static function all()
-    {
-        return (new dataTable(explode('\\',get_called_class())))->all();
-    }
-    public static function where($data, $value1 = null, $value2 = null)
-    {
-        return (new dataTable(explode('\\',get_called_class())))->where($data,$value1,$value2);
-    }
-    public static function find($id)
-    {
-        return (new dataTable(explode('\\',get_called_class())))->where('id',$id)->first();
-    }
-}
 class dataTable{
     private $sql = '';
     private $table = '';
@@ -94,11 +17,10 @@ class dataTable{
        $i=1;
        while($row = $data->fetch_assoc())
        {
-           $r = new  $this->table();
            foreach ($row as $key => $value) {
-               $r->$key = $value;
+               $r[$key] = $value;
            }
-           $datatable->$i = $r;
+           $datatable->$i = (object) $r;
            $i++;
        }
        return $datatable; 
@@ -218,7 +140,7 @@ class dataTable{
    }
    public function first()
    {
-        return ((array) $this)[1];
+        return ((array) $this)[1] ?? [];
    }
    public function select($obj)
    {
@@ -238,4 +160,80 @@ class dataTable{
        $this->sql = "SELECT $select FROM ".explode('FROM',$this->sql)[1];
        return $this->all();
    }
+}
+class Model
+{
+    public function save()
+    {
+        date_default_timezone_set('asia/ho_chi_minh');
+        if(isset($this->id))
+        {
+            $__this = explode('\\',get_class($this));
+            $_sql = 'UPDATE `'.$__this[1].'` SET ';
+            foreach( $this as $key => $value )
+            {
+                if($key!='id'&& $key!='table')
+                {
+                    
+                    if(gettype($value)=="string")
+                    {
+                        $_sql.= "`$key`= N'$value', ";
+                    }else
+                    {
+                        $_sql.= "`$key`='$value', ";
+                    }
+                }
+            }
+
+            $_sql.= "`time_edit` = '".date("Y/m/d H:i:s")."' WHERE `id` = $this->id";
+            
+            return connect::database($_sql);
+        }else
+        {
+            $__this = explode('\\',get_class($this));
+            $_name = "INSERT INTO `".$__this[1].'` (';
+            $_data = ') VALUES (';
+            foreach( $this as $key => $value )
+            {
+               if($key != 'table')
+               {
+                    $_name.="`".$key.'`, ';
+                    if(gettype($value)=="string")
+                    {
+                        $_data.="N'".$value."', ";
+                    }else
+                    {
+                        $_data.="'".$value."', ";
+                    }
+               }
+                
+            }
+            $_name.='`time_create`, `time_edit`'.
+            $_data.="'".date("Y/m/d H:i:s")."','".date("Y/m/d H:i:s")."')";
+            return \connect::database($_name);
+        }
+    }
+    public function delete()
+    {
+        if(isset($this->id))
+        {
+            $__this = explode('\\',get_class($this));
+            $sql = "DELETE FROM `".$__this[1]."` WHERE `id` = $this->id";
+            return connect::database($_sql);
+        }
+        return false;
+        
+    }
+    public static function all()
+    {
+        return (new dataTable(explode('\\',get_called_class())[1]))->all();
+    }
+    public static function where($data, $value1 = null, $value2 = null)
+    {
+        return (new dataTable(explode('\\',get_called_class())[1]))->where($data,$value1,$value2);
+    }
+    public static function find($id)
+    {
+        return (new dataTable(explode('\\',get_called_class())[1]))->where('id',$id)->first();
+    }
 }

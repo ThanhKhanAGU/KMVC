@@ -25,17 +25,102 @@ function _help()
         echo "\e[39m    □ \e[33m-controller-route \e[90m<Tên Ctrl>  \e[39m- Tạo ra một class Controller và Các Route tương ứng.\n";
         echo "\e[39m    □ \e[33m-table            \e[90m<Tên bảng>  \e[39m- Tạo một bảng trong kịch bản của CSDL.\n";
         echo "\e[39m    □ \e[33m-add-data         \e[90m<Tên data>  \e[39m- Thêm dữ liệu vào trong CSDL.\n";
+        echo "\e[39m    □ \e[33m-user             \e[90m            \e[39m- Tạo chức năng đăng nhập.\n";
         echo "\e[39m    □ \e[33m-reset-db         \e[90m            \e[39m- Xóa toàn bộ CSDL.\n";
         echo "\e[39m    □ \e[33m-execute-db       \e[90m            \e[39m- Thực thi kịch bản để tạo ra CSDL.\n";        
 }
-
+function user()
+{
+    $user = '<?php
+    namespace K_MVC;
+    
+    
+    class user extends Model
+    {
+        private static $u = NULL;
+        public static $time = 1800;
+        private static $check = NULL;
+        public static function user()
+        {
+            if(self::$u == NULL)
+            {
+                self::$u = user::where(\'remember_login\',$_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\'])->first();
+            }
+            return self::$u;
+        }
+        public static function Login($user, $pass)
+        {
+            $pass = md5($pass);
+            $sql = "SELECT * FROM `user` WHERE `username` = \'$user\' and `password` = \'$pass\'";
+            $a = \connect::database($sql);
+            if($a!==false);
+            {
+                $row = $a->fetch_assoc();
+                setcookie(\'__login__remember__CAfCWIr8VHpIpap4n\', $row[\'remember_login\'], time() + self::$time, "/");
+                return true;
+            }
+            return false;
+        }
+        public static function regis($user)
+        {
+            $__user = new user();
+            foreach($user as $key=>$value)
+            {
+                if($key === \'password\') 
+                $value = md5($value);
+                if($key !== \'file\')
+                $__user->$key = $value;
+            }
+            $__user->remember_login = \connect::randum().time();
+            $__user->save();
+            return true;
+        }
+        public static function check()
+        {
+            if(self::$check==NULL)
+            {
+                if(isset($_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\']))
+                {
+                    $data = self::where(\'remember_login\',$_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\'])->first();
+                    self::$check = isset($data->remember_login);
+                }
+                else
+                    return false;
+            }
+            return self::$check;
+            
+        }
+    }';
+    write('core\\auth','user.php',$user);
+$user_tb = '<?php
+#----------------------------------------------------------------------------
+#----------------------         CÁC KIỂU DỮ LIỆU       ----------------------
+# $table->string("tên",0->255) : kiểu chữ
+# $table->text("tên",1->4)     : kiểu văn bản
+# $table->int("tên",1->5)      : kiểu số nguyên
+# $table->id_r("tên")          : kiểu id liên kết
+# $table->float("tên")         : kiểu float
+# $table->double("tên")        : kiểu double
+# $table->bit("tên")           : kiểu true / false
+# $table->date("tên")          : kiểu ngày (YYYY/MM/DD)
+# $table->datetime("tên")      : kiểu thời gian và ngày (YYYY/MM/DD H:m:s)
+# $table->time("tên")          : kiểu thời gian (H:m:s)
+#------   Nhập Code   --------
+#----  Thông Tin đăng nhập ---
+$table = new Table("user");
+$table->string("username");
+$table->string("password",128);
+$table->string("remember_login");
+#---  Thông Tin người dùng ---';
+write('database','_user.php',$user_tb);
+}
 function write($path,$name,$result)
 {
     if(!is_dir($path))
     {
        mkdir("$path");
     };
-    $path = "$path$name";
+    $path = "$path\\$name";
     $myfile = fopen($path, "w");
     fwrite($myfile, $result);
     fclose($myfile);
@@ -390,6 +475,19 @@ if($argc === 2)
         die();
     }
     if(strtolower($argv[1]) === '-add-data')
+    {
+       if(file_exists("database/data/$argv[2].php"))
+       {
+           require_once("database/data/$argv[2].php");
+           echo "\e[32mĐã Thêm CSDL Thành Công.\e[39m";
+           die();
+       }else
+       {
+            echo "\e[31mKhông tìm thấy dữ liệu.\e[39m";
+       }
+       die();
+    }
+    if(strtolower($argv[1]) === '-user')
     {
        if(file_exists("database/data/$argv[2].php"))
        {

@@ -19,7 +19,7 @@ class Table{
         $a = connect::exec($sql);
         while ($row = $a->fetch_assoc()) {
             $row = $row['table_name'];
-            connect::database("DROP TABLE `$row`");
+            connect::exec("DROP TABLE `$row`");
         }
         echo "\e[32mReset Database thành công!\e[39m";
     }
@@ -44,7 +44,7 @@ class Table{
     public function string($name,$size = 50,$default = '')
     {
         $this->sql.=",
-        `$name` varchar($size) DEFAULT '$default'";
+        `$name` nvarchar($size) DEFAULT '$default'";
     }
     public function text($name,$size = 2 ,$default = '')
     {
