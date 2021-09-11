@@ -169,18 +169,25 @@ function create_database($name)
 $table = new Table("'.$name.'");';
     write('database',"_".time()."_$name.php",$text);
     $data = '
-<?php
+<?php 
+namespace K_MVC;
+require_once(\'core\\Model.php\');
+require_once(\'core\\connect.php\');
+class hanghoa extends Model{};
 # thêm dữ liệu vào database
-$data[] = [];
+$data = [
+    // [
+    // ]
+];
 
 
 #thực thi thêm data vào bảng
 foreach($data as $item)
 {
-    $dt = new '.$name.'();
+    $dt = new hanghoa();
     foreach($item as $key=>$value)
     {
-        $dt[$key] = $value;
+        $dt->$key = $value;
     }
     $dt->save();
 }';
