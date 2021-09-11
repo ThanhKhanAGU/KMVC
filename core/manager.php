@@ -198,7 +198,12 @@ function create_controller($name,$route = false)
     {
         #Code....
     }
-    public function site($id)
+    public function site($name,$id)
+    {
+        #Code....
+    }
+    //-----------------------------------
+    public function list_get()
     {
         #Code....
     }
@@ -237,6 +242,7 @@ write('app/controller/',"$name.php",$text);
         $route = "//-----------------   Begin Router của '$name'   -----------------";
         $route.= "\nRoute::get('$name/sites','$name@sites');\n";
         $route.= "\nRoute::get('$name/site/{name}/{id}','$name@site');\n";
+        $route.= "\nRoute::get('$name/list','$name@list_get');\n";
         $route.= "\nRoute::get('$name/add','$name@add_get');\n";
         $route.= "\nRoute::post('$name/add','$name@add_post');\n";
         $route.= "\nRoute::get('$name/edit/{id}','$name@edit_get');\n";
