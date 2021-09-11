@@ -31,8 +31,7 @@ function _help()
 }
 function user()
 {
-    $user = '<?php
-    namespace K_MVC;
+    $user = '<?php namespace K_MVC;
     class user extends Model
     {
         private static $u = NULL;
@@ -137,8 +136,7 @@ function read()
 function create_model($name)
 {
     $text = 
-'<?php
-namespace K_MVC;
+'<?php namespace K_MVC;
 
 
 class '.$name.' extends Model
@@ -168,12 +166,10 @@ function create_database($name)
 #------   Nhập Code   --------
 $table = new Table("'.$name.'");';
     write('database',"_".time()."_$name.php",$text);
-    $data = '
-<?php 
-namespace K_MVC;
+    $data = '<?php namespace K_MVC;
 require_once(\'core\\Model.php\');
 require_once(\'core\\connect.php\');
-class hanghoa extends Model{};
+class '.$name.' extends Model{};
 # thêm dữ liệu vào database
 $data = [
     // [
@@ -184,7 +180,7 @@ $data = [
 #thực thi thêm data vào bảng
 foreach($data as $item)
 {
-    $dt = new hanghoa();
+    $dt = new '.$name.'();
     foreach($item as $key=>$value)
     {
         $dt->$key = $value;
