@@ -147,7 +147,7 @@ class '.$name.' extends Model
 }';
 
 write('app\\model\\',"$name.php",$text);
-die();
+
 }
 function create_database($name)
 {
@@ -192,7 +192,6 @@ foreach($data as $item)
     $dt->save();
 }';
     write('database/data',"$name.php",$data);
-    die();
 }
 function create_controller($name,$route = false)
 {
@@ -250,7 +249,7 @@ write('app/controller/',"$name.php",$text);
         $route.= "//------------------   End Router của '$name'   ------------------";
         write('router/',"web.php",read().$route); 
     }
-    die();
+
 }
 
 
@@ -288,7 +287,7 @@ function create_view($name)
 
     write("app/view/pages/$name","p_$name.html",str_replace('Danh Sách',"Chi Tiết",$html));
 
-    die();
+
 }
 function create_view_page($name)
 {
@@ -304,7 +303,7 @@ function create_view_page($name)
 @endcopy';
 
 write("app/view/pages/","$name.html",$html);
-die();
+
 }
 
 
