@@ -25,7 +25,6 @@ function _help()
         echo "\e[39m    □ \e[33m-controller-route \e[90m<Tên Ctrl>  \e[39m- Tạo ra một class Controller và Các Route tương ứng.\n";
         echo "\e[39m    □ \e[33m-table            \e[90m<Tên bảng>  \e[39m- Tạo một bảng trong kịch bản của CSDL.\n";
         echo "\e[39m    □ \e[33m-add-data         \e[90m<Tên data>  \e[39m- Thêm dữ liệu vào trong CSDL.\n";
-        echo "\e[39m    □ \e[33m-user             \e[90m            \e[39m- Tạo chức năng đăng nhập.\n";
         echo "\e[39m    □ \e[33m-reset-db         \e[90m            \e[39m- Xóa toàn bộ CSDL.\n";
         echo "\e[39m    □ \e[33m-execute-db       \e[90m            \e[39m- Thực thi kịch bản để tạo ra CSDL.\n";        
 }
