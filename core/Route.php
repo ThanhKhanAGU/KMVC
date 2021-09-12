@@ -71,8 +71,7 @@ if(isset($_SERVER['PATH_INFO']))
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'GET')
-{
-    
+{   
     foreach(Route::$get??[] as $path)
     {
         if(($data = checklink($path_info,$path))!==false)
@@ -81,16 +80,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
             {     
                 if(strpos($data[0],'@')===false)
                 {
-                    var_dump($data[0]);
-                    $_url = $_SERVER['HTTP_ORIGIN'];
-                    header("Location: $_url/$data[0]");
+                    $http = __URL__;
+                    header("Location: $http$data[0]");
                     exit;
                 }
                 else 
                 {  
                     $func = explode('@',$data[0]);
-                    if(count($func)!=2) die("Khởi tạo route ko Đúng");
-                    
+                    if(count($func)!=2) die("Khởi tạo route ko Đúng");       
                     $func[0]="K_MVC\\$func[0]Controller";
                     if(!isset($data[1]))
                     {
@@ -126,8 +123,8 @@ else
             {
                 if(strpos($data[0],'@')===false)
                 {
-                    $_url = $_SERVER['HTTP_ORIGIN'];
-                    header("Location: $_url/$data[0]");
+                    $http = __URL__;
+                    header("Location: $http$data[0]");
                     exit;
                 }
                 else 

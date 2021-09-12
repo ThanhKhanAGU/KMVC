@@ -15,17 +15,21 @@ class dataTable{
        $data = \connect::database($this->sql);
        $datatable = new dataTable($this->table,$this->sql);
        $i=1;
-       while($row = $data->fetch_assoc())
+       if($data->num_rows > 0)
        {
-           $tenclass = "K_MVC\\$this->table";
-            $r = new $tenclass() ;
-           foreach ($row as $key => $value) {
-               $r->$key = $value;
-           }
-           $datatable->$i = $r;
-           $i++;
+            while ($row = $data->fetch_assoc()) {
+                $tenclass = "K_MVC\\$this->table";
+                $r = new $tenclass();
+                foreach ($row as $key => $value) {
+                    $r->$key = $value;
+                }
+                $datatable->$i = $r;
+                $i++;
+            }
+            return $datatable; 
        }
-       return $datatable; 
+       return [];
+       
    }
 
     public function where($data, $value1 = null, $value2 = null)

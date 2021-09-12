@@ -29,90 +29,6 @@ function _help()
         echo "\e[39m    □ \e[33m-reset-db         \e[90m            \e[39m- Xóa toàn bộ CSDL.\n";
         echo "\e[39m    □ \e[33m-execute-db       \e[90m            \e[39m- Thực thi kịch bản để tạo ra CSDL.\n";        
 }
-function user()
-{
-    $user = '<?php namespace K_MVC;
-    class user extends Model
-    {
-        private static $u = NULL;
-        public static $time = 1800;
-        private static $check = NULL;
-        public static function user()
-        {
-            if(self::$u == NULL)
-            {
-                self::$u = user::where(\'remember_login\',$_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\'])->first();
-            }
-            return self::$u;
-        }
-        public static function Login($user, $pass)
-        {
-            $pass = md5($pass);
-            $sql = "SELECT * FROM `user` WHERE `username` = \'$user\' and `password` = \'$pass\'";
-            $a = \connect::database($sql);
-            if($a!==false);
-            {
-                $row = $a->fetch_assoc();
-                setcookie(\'__login__remember__CAfCWIr8VHpIpap4n\', $row[\'remember_login\'], time() + self::$time, "/");
-                return true;
-            }
-            return false;
-        }
-        public static function regis($user)
-        {
-            $__user = new user();
-            foreach($user as $key=>$value)
-            {
-                if($key === \'password\') 
-                $value = md5($value);
-                if($key !== \'file\')
-                $__user->$key = $value;
-            }
-            $__user->remember_login = \connect::randum().time();
-            $__user->save();
-            return true;
-        }
-        public static function check()
-        {
-            if(self::$check==NULL)
-            {
-                if(isset($_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\']))
-                {
-                    $data = self::where(\'remember_login\',$_COOKIE[\'__login__remember__CAfCWIr8VHpIpap4n\'])->first();
-                    self::$check = isset($data->remember_login);
-                }
-                else
-                    return false;
-            }
-            return self::$check;
-            
-        }
-    }';
-    write('core\\auth','user.php',$user);
-
-$user_tb = '<?php
-#----------------------------------------------------------------------------
-#----------------------         CÁC KIỂU DỮ LIỆU       ----------------------
-# $table->string("tên",0->255) : kiểu chữ
-# $table->text("tên",1->4)     : kiểu văn bản
-# $table->int("tên",1->5)      : kiểu số nguyên
-# $table->id_r("tên")          : kiểu id liên kết
-# $table->float("tên")         : kiểu float
-# $table->double("tên")        : kiểu double
-# $table->bit("tên")           : kiểu true / false
-# $table->date("tên")          : kiểu ngày (YYYY/MM/DD)
-# $table->datetime("tên")      : kiểu thời gian và ngày (YYYY/MM/DD H:m:s)
-# $table->time("tên")          : kiểu thời gian (H:m:s)
-#------   Nhập Code   --------
-#----  Thông Tin đăng nhập ---
-$table = new Table("user");
-$table->string("username");
-$table->string("password",128);
-$table->string("remember_login");
-#---  Thông Tin người dùng ---';
-write('database','_user.php',$user_tb);
-
-}
 function write($path,$name,$result)
 {
     if(!is_dir($path))
@@ -239,7 +155,7 @@ class '.$name.'Controller extends Controller
 write('app/controller/',"$name.php",$text);
     if($route == true)
     {
-        $route = "//-----------------   Begin Router của '$name'   -----------------";
+        $route = "\n//-----------------   Begin Router của '$name'   -----------------";
         $route.= "\nRoute::get('$name/sites','$name@sites');\n";
         $route.= "\nRoute::get('$name/site/{name}/{id}','$name@site');\n";
         $route.= "\nRoute::get('$name/list','$name@list_get');\n";
@@ -251,10 +167,7 @@ write('app/controller/',"$name.php",$text);
         $route.= "//------------------   End Router của '$name'   ------------------";
         write('router/',"web.php",read().$route); 
     }
-
 }
-
-
 function create_view($name)
 {
     $admin[] = 'add'; 
@@ -288,8 +201,6 @@ function create_view($name)
     write("app/view/pages/$name","info_$name.html",$html);
 
     write("app/view/pages/$name","p_$name.html",str_replace('Danh Sách',"Chi Tiết",$html));
-
-
 }
 function create_view_page($name)
 {
@@ -305,10 +216,7 @@ function create_view_page($name)
 @endcopy';
 
 write("app/view/pages/","$name.html",$html);
-
 }
-
-
 if($argc === 2)
 {
     if(strtolower($argv[1]) === '-reset-db')
@@ -330,11 +238,6 @@ if($argc === 2)
         {
             Table::execute();
         }
-        die();
-    }
-    if(strtolower($argv[1]) === '-user')
-    {
-        user();
         die();
     }
     _help();
