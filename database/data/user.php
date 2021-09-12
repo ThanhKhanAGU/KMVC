@@ -10,7 +10,6 @@ $data = [
     ]
 ];
 
-
 #thực thi thêm data vào bảng
 foreach($data as $item)
 {
@@ -19,5 +18,5 @@ foreach($data as $item)
     {
         $dt->$key = $value;
     }
-    user::regis($dt);
+    $dt->regis();
 }

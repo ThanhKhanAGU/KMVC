@@ -25,19 +25,14 @@ class user extends Model
         }
         return false;
     }
-    public static function regis($user)
+    public function regis()
     {
-        $__user = new user();
-        foreach($user as $key=>$value)
-        {
-            if($key === 'password') 
-            $value = md5($value);
-            if($key !== 'file')
-            $__user->$key = $value;
-        }
-        $__user->remember_login = \connect::randum().time();
-        $__user->save();
-        return true;
+        $this->password = md5($this->password);
+        $this->remember_login = \connect::randum().time();
+        if( count((array)self::where('username',$this->username))===0)
+            return $this->save();
+        else
+            return -1;
     }
     public static function check()
     {
@@ -53,4 +48,16 @@ class user extends Model
         }
         return self::$check;  
     }
+    public static function logout()
+    {
+        if(self::check()) 
+        {
+            unset($_COOKIE['__login__remember__CAfCWIr8VHpIpap4n']);
+            setcookie('__login__remember__CAfCWIr8VHpIpap4n', '', time() - 3600, '/');
+        }
+        self::$u = NULL;
+        self::$check = NULL;
+        
+    }
+    
 }

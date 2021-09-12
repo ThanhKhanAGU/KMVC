@@ -70,6 +70,13 @@ if(isset($_SERVER['PATH_INFO']))
     $path_info = '/';
 }
 
+// Thêm Thời Gian Cho cookie
+if (isset($_COOKIE['__login__remember__CAfCWIr8VHpIpap4n'])) {
+    $__remenber = $_COOKIE['__login__remember__CAfCWIr8VHpIpap4n'];
+    setcookie('__login__remember__CAfCWIr8VHpIpap4n', $__remenber, time() + K_MVC\user::$time, "/");
+}
+//end Thêm Thời Gian Cho cookie
+
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {   
     foreach(Route::$get??[] as $path)
