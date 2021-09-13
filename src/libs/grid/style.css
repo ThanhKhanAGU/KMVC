@@ -3,13 +3,14 @@
   padding: 0;
   width: 100%;
   display: block;
+  margin: 0 auto;
 }
 .grid > .r {
   --xl: 12;
   --l: var(--xl);
-  --m: var(--l);
-  --s: var(--m);
-  --mn: var(--s);
+  --m:  var(--l);
+  --s:  var(--m);
+  --mn:var(--s);
   margin: 0;
   padding: 0;
   display: flex;
@@ -149,7 +150,7 @@
     width: calc(12 / var(--l) * 100%);
   }
 }
-@media (min-width: 768px) and(max-width:991px) {
+@media (min-width: 768px) and (max-width:991px) {
   .grid.w {
     width: 768px;
   }
