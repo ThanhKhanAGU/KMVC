@@ -125,7 +125,7 @@ class dataTable
     }
     public function first()
     {
-        return ((array) $this)[1] ?? [];
+        return ((array) $this)[1] ?? (object) [];
     }
     public function select($obj)
     {

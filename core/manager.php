@@ -170,7 +170,6 @@ write('app/controller/',"$name.php",$text);
 function create_view($name)
 {
     $admin[] = 'add'; 
-    $admin[] = 'delete';
     $admin[] = 'edit';
     $admin[] = 'list';
     $html = 
