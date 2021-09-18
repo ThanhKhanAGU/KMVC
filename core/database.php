@@ -51,9 +51,9 @@ class Table
     public function string($name, $size = 50, $default = '')
     {
         $this->sql .= ",
-        `$name` nvarchar($size) DEFAULT '$default'";
+        `$name` varchar($size) DEFAULT '$default'";
     }
-    public function text($name, $size = 2, $default = '')
+    public function text($name, $size = 2)
     {
         $type[1] = "tinytext";
         $type[2] = "text";
@@ -61,7 +61,7 @@ class Table
         $type[4] = "longtext";
         if ($size > 0 && $size < 6) {
             $this->sql .= ",
-            `$name` $type[$size] DEFAULT N'$default'";
+            `$name` $type[$size] DEFAULT NULL";
         } else die("sai kích thước");
     }
     public function int($name, $size = 4, $default = 0)
